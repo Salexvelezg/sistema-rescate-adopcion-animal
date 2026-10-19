@@ -1,0 +1,26 @@
+
+@startuml
+title Registro de un caso de rescate animal
+
+actor Ciudadano
+boundary "Formulario de reporte" as Vista
+control "Controlador de casos" as Controlador
+participant "FabricaExpedientes" as Fabrica
+participant "GestorCasos" as Gestor
+participant "Notificador" as Notificador
+participant "Servicio de notificaciones" as Servicio
+
+Ciudadano -> Vista : Completar datos del animal
+Ciudadano -> Vista : Enviar reporte
+Vista -> Controlador : registrarReporte(datos)
+Controlador -> Fabrica : crearExpediente(tipo)
+Fabrica --> Controlador : expediente
+Controlador -> Gestor : registrarCaso(expediente)
+Gestor --> Controlador : confirmacion
+Controlador -> Notificador : notificar(expediente)
+Notificador -> Servicio : enviarNotificacion(expediente)
+Servicio --> Notificador : notificacion enviada
+Controlador --> Vista : mostrarConfirmacion()
+Vista --> Ciudadano : Mostrar numero del caso
+
+@enduml
